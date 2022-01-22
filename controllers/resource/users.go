@@ -1,6 +1,8 @@
 package resource
 
 import (
+	"log"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/huuhait/go-learn/config"
 	"github.com/huuhait/go-learn/controllers/entities"
@@ -22,8 +24,17 @@ func userToEntity(user *models.User) entities.User {
 func GetUser(c *fiber.Ctx) error {
 	var user *models.User
 
-	if result := config.Database.First(&user, 1); result.Error != nil {
-		return c.JSON("LỖI RỒI")
+	session, _ := config.Store.Get(c)
+	email := session.Get("email")
+	log.Println(email)
+
+	if email == nil {
+		return c.JSON("CHƯA ĐĂNG NHẬP!")
+	}
+
+	if result := config.Database.First(&user, "email = ?", email); result.Error != nil {
+		session.Destroy()
+		return c.JSON("KO TÌM THẤY USER")
 	}
 
 	return c.JSON(userToEntity(user))
