@@ -1,0 +1,17 @@
+events:
+  - name: Password Reset
+    key: password_reset
+    templates:
+      en:
+        subject: Password Reset
+        template_path: templates/en/password_reset.tpl
+
+  - name: Email Confirmation
+    key: email_confirmation
+    templates:
+      en:
+        subject: Email Confirmation
+        template_path: templates/en/email_confirmation.tpl
+      vi:
+        subject: Email Confirmation
+        template_path: templates/vi/toingu.tpl
